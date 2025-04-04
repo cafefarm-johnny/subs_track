@@ -24,9 +24,11 @@ class HomeView extends ConsumerWidget {
             child: ListView.builder(
               itemCount: 30,
               itemBuilder: (_, index) {
-                return ListTile(
-                  title: Text('[서비스명]'),
-                  subtitle: Text('구독료 - 매 월 {day}일 결제'),
+                return Container(
+                  child: ListTile(
+                    title: Text('[서비스명]'),
+                    subtitle: Text('구독료 - 매 월 {day}일 결제'),
+                  ),
                 );
               },
             ),
