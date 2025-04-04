@@ -22,6 +22,7 @@ class HomeView extends ConsumerWidget {
           ),
           Expanded(
             child: ListView.builder(
+              itemCount: 30,
               itemBuilder: (_, index) {
                 return ListTile(
                   title: Text('[서비스명]'),
