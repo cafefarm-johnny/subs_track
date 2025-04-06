@@ -28,10 +28,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
         ref.read(subscriptionProvider.notifier).calculateMonthlyExpenses();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('구독 관리 앱'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
+      appBar: AppBar(title: const Text('구독 관리 앱')),
       body: Column(
         children: [
           _createTitle(monthlyExpense: monthlyExpense),
