@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:subs_track/core/utils/currency_utils.dart';
 import 'package:subs_track/models/subscription/subscription_model.dart';
-import 'package:subs_track/viewmodels/subscription/SubscriptionNotifier.dart';
+import 'package:subs_track/viewmodels/subscription/subscription_notifier.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});

@@ -40,6 +40,14 @@ class SubscriptionNotifier extends StateNotifier<List<SubscriptionModel>> {
     ];
   }
 
+  void addSubscription(SubscriptionModel subscription) {
+    state = [...state, subscription];
+  }
+
+  void removeSubscription(String id) {
+    state = state.where((subscription) => subscription.id != id).toList();
+  }
+
   int calculateMonthlyExpenses() {
     return state.fold(0, (total, sub) {
       if (sub.frequency.isMonthly) {
