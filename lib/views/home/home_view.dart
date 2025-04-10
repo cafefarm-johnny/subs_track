@@ -36,7 +36,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed:
+            () async => await Navigator.pushNamed(context, '/registration'),
         child: Icon(Icons.add),
       ),
     );

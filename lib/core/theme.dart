@@ -7,6 +7,8 @@ class AppTheme {
     brightness: Brightness.light,
     primarySwatch: Colors.red,
     scaffoldBackgroundColor: Colors.white,
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.white,
       elevation: 0,
@@ -29,6 +31,8 @@ class AppTheme {
     brightness: Brightness.dark,
     primarySwatch: Colors.red,
     scaffoldBackgroundColor: Colors.black,
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.black,
       elevation: 0,
