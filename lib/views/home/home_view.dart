@@ -15,7 +15,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
   @override
   void initState() {
     super.initState();
-
     Future.microtask(
       () => ref.read(subscriptionProvider.notifier).fetchSubscriptions(),
     );
@@ -25,7 +24,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     final subscriptions = ref.watch(subscriptionProvider);
     final monthlyExpense =
-        ref.read(subscriptionProvider.notifier).calculateMonthlyExpenses();
+        ref.watch(subscriptionProvider.notifier).calculateMonthlyExpenses();
 
     return Scaffold(
       appBar: AppBar(title: const Text('구독 관리 앱')),

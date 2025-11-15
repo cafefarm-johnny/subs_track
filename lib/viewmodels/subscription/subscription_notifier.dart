@@ -2,12 +2,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:subs_track/models/subscription/subscription_model.dart';
 
 final subscriptionProvider =
-    StateNotifierProvider<SubscriptionNotifier, List<SubscriptionModel>>(
-      (ref) => SubscriptionNotifier(),
+    NotifierProvider<SubscriptionNotifier, List<SubscriptionModel>>(
+      SubscriptionNotifier.new,
     );
 
-class SubscriptionNotifier extends StateNotifier<List<SubscriptionModel>> {
-  SubscriptionNotifier() : super([]);
+class SubscriptionNotifier extends Notifier<List<SubscriptionModel>> {
+  @override
+  List<SubscriptionModel> build() {
+    return [];
+  }
 
   Future<void> fetchSubscriptions() async {
     await Future.delayed(const Duration(seconds: 2));
