@@ -4,40 +4,46 @@ import 'package:subs_track/core/utils/currency_utils.dart';
 import 'package:subs_track/models/subscription/subscription_model.dart';
 import 'package:subs_track/viewmodels/subscription/subscription_notifier.dart';
 
-class HomeView extends ConsumerStatefulWidget {
+class HomeView extends ConsumerWidget {
   const HomeView({super.key});
 
   @override
-  ConsumerState<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends ConsumerState<HomeView> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(
-      () => ref.read(subscriptionProvider.notifier).fetchSubscriptions(),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final subscriptions = ref.watch(subscriptionProvider);
-    final monthlyExpense =
-        ref.watch(subscriptionProvider.notifier).calculateMonthlyExpenses();
 
     return Scaffold(
       appBar: AppBar(title: const Text('구독 관리 앱')),
-      body: Column(
-        children: [
-          _createTitle(monthlyExpense: monthlyExpense),
-          _createSubscriptions(subscriptions),
-        ],
+      body: subscriptions.when(
+        data: (subscriptions) {
+          final monthlyExpense =
+              ref
+                  .read(subscriptionProvider.notifier)
+                  .calculateMonthlyExpenses();
+
+          return Column(
+            children: [
+              _createTitle(monthlyExpense: monthlyExpense),
+              _createSubscriptions(subscriptions),
+            ],
+          );
+        },
+        error: (error, _) {
+          debugPrint(error.toString());
+          return Center(
+            child: FilledButton(
+              onPressed: () {
+                ref.read(subscriptionProvider.notifier).refresh();
+              },
+              child: const Text('새로고침'),
+            ),
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed:
             () async => await Navigator.pushNamed(context, '/registration'),
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
