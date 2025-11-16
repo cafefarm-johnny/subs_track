@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:subs_track/core/utils/currency_utils.dart';
+import 'package:subs_track/core/utils/log_utils.dart';
 import 'package:subs_track/models/subscription/subscription_model.dart';
 import 'package:subs_track/viewmodels/subscription/subscription_notifier.dart';
 
@@ -27,8 +28,12 @@ class HomeView extends ConsumerWidget {
             ],
           );
         },
-        error: (error, _) {
-          debugPrint(error.toString());
+        error: (error, stackTrace) {
+          LogUtils.e(
+            'subscription 초기화에 실패했습니다.',
+            error: error,
+            stackTrace: stackTrace,
+          );
           return Center(
             child: FilledButton(
               onPressed: () {

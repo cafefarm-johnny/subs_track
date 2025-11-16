@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:subs_track/core/theme.dart';
+import 'package:subs_track/core/utils/log_utils.dart';
 import 'package:subs_track/views/home/home_view.dart';
 import 'package:subs_track/views/registration/subscription_registration_view.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
+  LogUtils.initializeOnMainIsolate();
+
   runApp(ProviderScope(child: const MyApp()));
 }
 

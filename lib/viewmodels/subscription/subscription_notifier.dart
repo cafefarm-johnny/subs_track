@@ -18,6 +18,11 @@ class SubscriptionNotifier extends AsyncNotifier<List<SubscriptionModel>> {
   Future<List<SubscriptionModel>> _fetchSubscriptions() async {
     await Future.delayed(const Duration(seconds: 2));
 
+    Future.delayed(
+      Duration(seconds: 5),
+      () => state = AsyncValue.error(Exception('test'), StackTrace.current),
+    );
+
     return [
       SubscriptionModel(
         id: '1',
