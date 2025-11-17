@@ -41,13 +41,15 @@ class LogUtils {
   static const _logPortName = 'log_send_port';
 
   static final _logger = ConsoleLogger();
-  static SendPort? _sendPort;
 
   /// 메인 Isolate에서 초기화합니다.
   ///
   /// [ReceivePort]를 등록하고, 메시지를 수신하여 처리합니다.
   static void initializeOnMainIsolate() {
     final receivePort = ReceivePort(_logPortName);
+
+    // (Hot Restart 상황에서) 이전에 등록된 Port를 제거합니다.
+    IsolateNameServer.removePortNameMapping(_logPortName);
 
     IsolateNameServer.registerPortWithName(receivePort.sendPort, _logPortName);
 
@@ -86,32 +88,55 @@ class LogUtils {
   }
 
   static void i(String message) {
-    _send(LogMessage(Level.info, message, null, StackTrace.current));
+    _send(
+      LogMessage(
+        level: Level.info,
+        message: message,
+        stackTrace: StackTrace.current,
+      ),
+    );
   }
 
   static void d(String message) {
-    _send(LogMessage(Level.debug, message, null, StackTrace.current));
+    _send(
+      LogMessage(
+        level: Level.debug,
+        message: message,
+        stackTrace: StackTrace.current,
+      ),
+    );
   }
 
   static void w(String message) {
-    _send(LogMessage(Level.warning, message, null, StackTrace.current));
+    _send(
+      LogMessage(
+        level: Level.warning,
+        message: message,
+        stackTrace: StackTrace.current,
+      ),
+    );
   }
 
   static void e(String message, {Object? error, StackTrace? stackTrace}) {
     _send(
-      LogMessage(Level.error, message, error, stackTrace ?? StackTrace.current),
+      LogMessage(
+        level: Level.error,
+        message: message,
+        error: error,
+        stackTrace: stackTrace ?? StackTrace.current,
+      ),
     );
   }
 
   /// 메인 Isolate로 로그를 전송합니다.
   /// Isolate로 전송할 데이터는 직렬화 가능한 객체여야 합니다.
   static void _send(LogMessage m) {
-    _sendPort ??= IsolateNameServer.lookupPortByName(_logPortName);
-    if (_sendPort == null) {
+    final sendPort = IsolateNameServer.lookupPortByName(_logPortName);
+    if (sendPort == null) {
       debugPrint('LogUtils: receivePort를 찾을 수 없습니다. 초기화를 해주세요.');
       return;
     }
 
-    _sendPort!.send(m.toMap());
+    sendPort.send(m.toMap());
   }
 }
