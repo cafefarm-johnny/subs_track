@@ -22,4 +22,18 @@ class SubscriptionEntity {
     required this.createdAt,
     this.updatedAt,
   });
+
+  @override
+  String toString() {
+    return 'SubscriptionEntity('
+        'id: $id, '
+        'serviceName: $serviceName, '
+        'currencyIndex: $currencyIndex, '
+        'amount: $amount, '
+        'frequencyIndex: $frequencyIndex, '
+        'paymentDay: $paymentDay, '
+        'createdAt: $createdAt, '
+        'updatedAt: $updatedAt'
+        ')';
+  }
 }
