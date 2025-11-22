@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:subs_track/models/subscription/subscription_model.dart';
 import 'package:subs_track/viewmodels/subscription/subscription_notifier.dart';
-import 'package:intl/intl.dart';
 
 class SubscriptionRegistrationView extends ConsumerStatefulWidget {
   const SubscriptionRegistrationView({super.key});
@@ -252,7 +252,7 @@ class _SubscriptionRegistrationViewState
 
   Widget _createFrequencyDropdown() {
     return DropdownButtonFormField<PaymentFrequency>(
-      value: _selectedFrequency,
+      initialValue: _selectedFrequency,
       decoration: const InputDecoration(labelText: '결제 주기'),
       items:
           PaymentFrequency.values.map((frequency) {
@@ -267,7 +267,7 @@ class _SubscriptionRegistrationViewState
 
   Widget _createCurrencyDropdown() {
     return DropdownButtonFormField<Currency>(
-      value: _selectedCurrency,
+      initialValue: _selectedCurrency,
       decoration: const InputDecoration(labelText: '통화'),
       items:
           Currency.values
