@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:subs_track/models/subscription/subscription_model.dart';
+import 'package:subs_track/models/subscription/subscription_data.dart';
 
 class CurrencyUtils {
   static final _instance = CurrencyUtils._internal();

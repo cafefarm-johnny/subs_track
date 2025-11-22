@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:subs_track/core/utils/currency_utils.dart';
 import 'package:subs_track/core/utils/log_utils.dart';
-import 'package:subs_track/models/subscription/subscription_model.dart';
+import 'package:subs_track/models/subscription/subscription_data.dart';
 import 'package:subs_track/viewmodels/subscription/subscription_notifier.dart';
 
 class HomeView extends ConsumerWidget {
@@ -63,7 +63,7 @@ class HomeView extends ConsumerWidget {
     );
   }
 
-  Widget _createSubscriptions(List<SubscriptionModel> subscriptions) {
+  Widget _createSubscriptions(List<SubscriptionData> subscriptions) {
     return Expanded(
       child: ListView.builder(
         itemCount: subscriptions.length,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:subs_track/models/subscription/subscription_model.dart';
+import 'package:subs_track/models/subscription/subscription_data.dart';
 import 'package:subs_track/viewmodels/subscription/subscription_notifier.dart';
 
 class SubscriptionRegistrationView extends ConsumerStatefulWidget {
@@ -146,8 +146,7 @@ class _SubscriptionRegistrationViewState
       return;
     }
 
-    final newSubscription = SubscriptionModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+    final newSubscription = SubscriptionData(
       serviceName: _serviceNameController.text.trim(),
       amount: int.parse(_amountController.text),
       frequency: _selectedFrequency,
