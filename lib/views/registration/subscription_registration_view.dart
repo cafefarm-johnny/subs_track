@@ -152,6 +152,7 @@ class _SubscriptionRegistrationViewState
       frequency: _selectedFrequency,
       paymentDay: int.parse(_paymentDayController.text),
       currency: _selectedCurrency,
+      createdAt: DateTime.now(),
     );
 
     ref.read(subscriptionProvider.notifier).addSubscription(newSubscription);

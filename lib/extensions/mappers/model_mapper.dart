@@ -6,10 +6,12 @@ extension SubscriptionDataMapper on SubscriptionEntity {
     return SubscriptionData(
       id: id,
       serviceName: serviceName,
-      currency: Currency.values[currencyIndex],
+      currency: Currency.from(currencyIndex),
       amount: amount,
-      frequency: PaymentFrequency.values[frequencyIndex],
+      frequency: PaymentFrequency.from(frequencyIndex),
       paymentDay: paymentDay,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 }
@@ -23,8 +25,8 @@ extension SubscriptionEntityMapper on SubscriptionData {
       amount: amount,
       frequencyIndex: frequency.index,
       paymentDay: paymentDay,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 }

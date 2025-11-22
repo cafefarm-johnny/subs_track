@@ -2,6 +2,14 @@ enum PaymentFrequency {
   monthly,
   yearly;
 
+  factory PaymentFrequency.from(int index) {
+    try {
+      return values[index];
+    } catch (e) {
+      throw ArgumentError.value(index, 'index', '파라미터가 유효하지 않습니다.');
+    }
+  }
+
   bool get isMonthly => this == monthly;
   bool get isYearly => this == yearly;
 }
@@ -9,6 +17,14 @@ enum PaymentFrequency {
 enum Currency {
   krw,
   usd;
+
+  factory Currency.from(int index) {
+    try {
+      return values[index];
+    } catch (e) {
+      throw ArgumentError.value(index, 'index', '파라미터가 유효하지 않습니다.');
+    }
+  }
 
   bool get isKRW => this == krw;
 }
@@ -30,8 +46,9 @@ class SubscriptionData {
     required this.amount,
     required this.frequency,
     required this.paymentDay,
+    required this.createdAt,
     this.updatedAt,
-  }) : createdAt = DateTime.now();
+  });
 
   bool isDueToday(DateTime date) {
     return frequency.isMonthly && date.day == paymentDay;

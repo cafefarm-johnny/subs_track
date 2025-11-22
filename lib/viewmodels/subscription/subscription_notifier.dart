@@ -71,11 +71,11 @@ class SubscriptionNotifier extends AsyncNotifier<List<SubscriptionData>> {
   /// 구독 삭제
   ///
   /// FIXME: DB에서 데이터를 삭제하도록 코드를 수정해야합니다.
-  void removeSubscription(String id) {
+  void removeSubscription(int id) {
     if (state.hasValue) {
       state = AsyncValue.data(
         state.requireValue
-            .where((subscription) => subscription.id != id)
+            .where((subscription) => (subscription.id ?? 0) != id)
             .toList(),
       );
     }
