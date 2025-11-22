@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:subs_track/extensions/mappers/model_mapper.dart';
-import 'package:subs_track/models/db/subscription_entity.dart';
 import 'package:subs_track/models/subscription/subscription_data.dart';
+import 'package:subs_track/repositories/subscription_repository.dart';
 
 final subscriptionProvider =
     AsyncNotifierProvider<SubscriptionNotifier, List<SubscriptionData>>(
@@ -9,48 +9,18 @@ final subscriptionProvider =
     );
 
 class SubscriptionNotifier extends AsyncNotifier<List<SubscriptionData>> {
+  final _subscriptionRepository = SubscriptionRepository();
+
   @override
   Future<List<SubscriptionData>> build() async {
     return await _fetchSubscriptions();
   }
 
   /// 구독 목록 조회
-  ///
-  /// FIXME: DB에서 데이터를 조회하도록 코드를 수정해야합니다.
   Future<List<SubscriptionData>> _fetchSubscriptions() async {
     await Future.delayed(const Duration(seconds: 2));
 
-    final dummy = [
-      SubscriptionEntity(
-        id: 1,
-        serviceName: 'Apple One',
-        currencyIndex: Currency.krw.index,
-        amount: 14900,
-        frequencyIndex: PaymentFrequency.monthly.index,
-        paymentDay: 4,
-        createdAt: DateTime.now(),
-      ),
-      SubscriptionEntity(
-        id: 2,
-        serviceName: '신한은행 IRP',
-        currencyIndex: Currency.krw.index,
-        amount: 750000,
-        frequencyIndex: PaymentFrequency.monthly.index,
-        paymentDay: 4,
-        createdAt: DateTime.now(),
-      ),
-      SubscriptionEntity(
-        id: 3,
-        serviceName: '네이버플러스 멤버쉽',
-        currencyIndex: Currency.krw.index,
-        amount: 4900,
-        frequencyIndex: PaymentFrequency.monthly.index,
-        paymentDay: 8,
-        createdAt: DateTime.now(),
-      ),
-    ];
-
-    return dummy.map((e) => e.toDomain()).toList();
+    return _subscriptionRepository.getAll().map((e) => e.toDomain()).toList();
   }
 
   /// 구독 목록 새로고침
@@ -60,19 +30,19 @@ class SubscriptionNotifier extends AsyncNotifier<List<SubscriptionData>> {
   }
 
   /// 구독 추가
-  ///
-  /// FIXME: DB에 데이터를 추가하도록 코드를 수정해야합니다.
   void addSubscription(SubscriptionData subscription) {
+    _subscriptionRepository.add(subscription.toEntity());
+
     if (state.hasValue) {
       state = AsyncValue.data([...state.requireValue, subscription]);
     }
   }
 
   /// 구독 삭제
-  ///
-  /// FIXME: DB에서 데이터를 삭제하도록 코드를 수정해야합니다.
   void removeSubscription(int id) {
-    if (state.hasValue) {
+    final isDeleted = _subscriptionRepository.delete(id);
+
+    if (isDeleted && state.hasValue) {
       state = AsyncValue.data(
         state.requireValue
             .where((subscription) => (subscription.id ?? 0) != id)
