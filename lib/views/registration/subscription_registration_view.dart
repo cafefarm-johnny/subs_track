@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:subs_track/core/utils/snack_bar_utils.dart';
 import 'package:subs_track/models/subscription/subscription_data.dart';
 import 'package:subs_track/viewmodels/subscription/subscription_notifier.dart';
 
@@ -157,12 +158,9 @@ class _SubscriptionRegistrationViewState
 
     ref.read(subscriptionProvider.notifier).addSubscription(newSubscription);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('구독 정보 등록 완료: ${newSubscription.serviceName}'),
-        duration: Duration(seconds: 2),
-        behavior: SnackBarBehavior.floating,
-      ),
+    SnackBarUtils.show(
+      context: context,
+      message: '[${newSubscription.serviceName}] 구독 정보를 등록했어요!',
     );
 
     Navigator.pop(context);

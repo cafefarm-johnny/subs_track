@@ -23,8 +23,11 @@ class HomeView extends ConsumerWidget {
 
           return Column(
             children: [
-              _createTitle(monthlyExpense: monthlyExpense),
-              _createSubscriptions(subscriptions),
+              _createTitle(context: context, monthlyExpense: monthlyExpense),
+              _createSubscriptions(
+                context: context,
+                subscriptions: subscriptions,
+              ),
             ],
           );
         },
@@ -53,17 +56,23 @@ class HomeView extends ConsumerWidget {
     );
   }
 
-  Widget _createTitle({required int monthlyExpense}) {
+  Widget _createTitle({
+    required BuildContext context,
+    required int monthlyExpense,
+  }) {
     return Padding(
       padding: EdgeInsets.all(16.0),
       child: Text(
         '이번 달 총 구독 비용: ${CurrencyUtils.formatCurrency(monthlyExpense, Currency.krw)}원',
-        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        style: Theme.of(context).textTheme.titleLarge,
       ),
     );
   }
 
-  Widget _createSubscriptions(List<SubscriptionData> subscriptions) {
+  Widget _createSubscriptions({
+    required BuildContext context,
+    required List<SubscriptionData> subscriptions,
+  }) {
     return Expanded(
       child: ListView.builder(
         itemCount: subscriptions.length,
@@ -72,9 +81,18 @@ class HomeView extends ConsumerWidget {
 
           return ListTile(
             title: Text(sub.serviceName),
-            subtitle: Text(
-              '구독료: ${CurrencyUtils.formatCurrency(sub.amount, sub.currency)}원 '
-              '(매 ${sub.frequency.isMonthly ? "월" : "년"} ${sub.paymentDay}일 결제)',
+            subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '구독료: ${CurrencyUtils.formatCurrency(sub.amount, sub.currency)}원',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                Text(
+                  '매 ${sub.frequency.isMonthly ? "월" : "년"} ${sub.paymentDay}일 결제',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
             ),
           );
         },
